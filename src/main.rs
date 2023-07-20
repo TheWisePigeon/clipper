@@ -3,11 +3,16 @@ fn main() {
     match command {
         Some(cmd) => match cmd.as_str() {
             "init" => {
-                let home_dir = "";
                 for (key, value) in std::env::vars_os() {
                     if key == "HOME" {
                         if let Some(path) = value.to_str() {
-                            println!("{path}")
+                            //Create clipboard database
+                            let clipper_db_path = format!("{path}/.clipperdb.txt");
+                            if let Ok(_) = std::fs::File::create(clipper_db_path) {
+                                println!("Clipper initialized")
+                            }else {
+                                println!("Error while creating clipboard database")
+                            }
                         } else {
                             println!("Error while reading your home directory")
                         }
